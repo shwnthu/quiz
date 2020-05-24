@@ -1,4 +1,5 @@
-export const mysql = require('mysql');
+const mariadbCallback = require('mariadb/callback');
+export const mariadb = require('mariadb');
 
 export class DbConnMgr {
   constructor() {
@@ -27,7 +28,7 @@ export class DbConnMgr {
         connectionLimit: process.env.DbConnMgrLIMIT,
         dateStrings: true
       };
-      DbConnMgr.__readConn = mysql.createPool(config);
+      DbConnMgr.__readConn = mariadbCallback.createPool(config);
     }
     return DbConnMgr.__readConn;
   }
@@ -44,7 +45,7 @@ export class DbConnMgr {
         connectionLimit: process.env.DbConnMgrLIMIT,
         dateStrings: true
       };
-      DbConnMgr.__writeConn = mysql.createPool(config);
+      DbConnMgr.__writeConn = mariadbCallback.createPool(config);
     }
     return DbConnMgr.__writeConn;
   }

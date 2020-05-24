@@ -1,7 +1,7 @@
 
 
 global.express = require('express');
-global.mysql = require('mysql');  // My Sql node package.
+global.mariadb = require('mariadb');  // My Sql node package.
 
 global.router = express.Router();
 global.HttpStatus = require('http-status');
@@ -14,16 +14,23 @@ global.jwt = require('jsonwebtoken');
 global.ip = require("ip");
 var cors = require('cors');
 global.fs = require('fs');
+global.fileUpload = require('express-fileupload'),
 global.uuidv1 = require('uuid/v1');
 require('dotenv').config();
 // global.config = require('./dbconfig/dbconfig').config;
 global.uuidAPIKey = require('uuid-apikey');
 global._ = require('lodash');
 global.app = express();
+import { ResponseHandler } from "./model/responseHandlerModel";
+import { ResponseHelper } from "./model/responseHelperModel";
+
+global.responseHandler = new ResponseHandler()
+global.ResponseHelper = new ResponseHelper()
 
 app.use(bodyParser.json({ limit: '50mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors(true));
+app.use(fileUpload())
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -35,7 +42,7 @@ app.use(function (req, res, next) {
 
 
 /* Start  new implementation*/
-// app.use(require('./router/otp'));
+app.use(require('./router/user'));
 
 
 
