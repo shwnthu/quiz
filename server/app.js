@@ -43,6 +43,7 @@ app.use(function (req, res, next) {
 
 /* Start  new implementation*/
 app.use(require('./router/user'));
+app.use(require('./router/questions'));
 
 
 

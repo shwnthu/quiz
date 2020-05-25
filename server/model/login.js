@@ -24,5 +24,36 @@ export class UserModel {
 				reject(new Error(err));
 			});
         })
-    }
+	}
+	
+	// updateProfilePic(){
+
+	// }
+
+	getUserDetails(userId){
+		return new Promise((resolve, reject) => {
+			let sql = sqlObj.login.getUserFromUserId;
+			let sqlQuery = format(sql, userId);
+            db.doRead(sqlQuery).then(userData => {
+				resolve(userData);
+			}).catch(err => {
+				console.log(err)
+				reject(new Error(err));
+			});
+        })
+	}
+
+
+	updateProfile(userInfo,userId) {
+		return new Promise((resolve, reject) => {
+			let sql = sqlObj.login.updateProfile;
+			let sqlQuery = format(sql,userInfo.fname,userInfo.lname,userInfo.city,userInfo.state,userInfo.gender,userInfo.email,userId);
+            db.doRead(sqlQuery).then(userData => {
+				resolve(userData);
+			}).catch(err => {
+				console.log(err)
+				reject(new Error(err));
+			});
+        })
+	}
 }

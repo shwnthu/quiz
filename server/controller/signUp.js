@@ -27,10 +27,8 @@ const STATUS = {
 export class USER {
     constructor(userdata) {
         this.user={
-            'fname'      : userdata.fname,
-            'lname'      : userdata.lname,
+           
             'mobile'     : userdata.mobile,
-            'email'      : userdata.email,
             'created_on' : util.getCurrentTimeStamp()
         }
         this.deviceInfo={
@@ -53,15 +51,15 @@ export class USER {
   }
 
 
-export const registerUser = (request, response) => {
-    __userSignUp(request, response).then(resgistrationRes => {
+export const authenticateUser = (request, response) => {
+    __authenticateUser(request, response).then(resgistrationRes => {
       return resgistrationRes;
     })
   };
 
 
 
-  const __userSignUp = async (request, response) => {
+  const __authenticateUser = async (request, response) => {
     let user = new USER(request.body);
     let isValidRegReq = await util.isValidRegRequest(user);
     if(isValidRegReq.status==0){
@@ -69,7 +67,7 @@ export const registerUser = (request, response) => {
         let isActive=0;
     let conn = await db.getConnObject();
     try {
-        let isUnique = await userModel.checkUniqueId(user.user.email, user.user.mobile);
+        let isUnique = await userModel.checkUniqueId( user.user.mobile);
         if (isUnique.length == STATUS.SUCCESS) {
           let otp = await __getOtp();
          const otpRes=await TwoFactor.sendOTP(user.user.mobile, {otp: otp, template: 'otp'}).then((res) => {
@@ -80,7 +78,7 @@ export const registerUser = (request, response) => {
          if(otpRes==STATUS.SUCCESS){
           const saveOtpRes = await otpModel.saveOtp(user.user.mobile,otp,user.created_on);
           await conn.beginTransaction();
-          let userRes = await userModel.createUser(conn,user.user.fname,user.user.lname, user.user.email,
+          let userRes = await userModel.createUser(conn,
                user.user.mobile, role_id,isActive, user.user.created_on);
                if (userRes) {
                 conn.commit();
@@ -101,14 +99,31 @@ export const registerUser = (request, response) => {
          }
         }
         else{
-          response.send(ResponseHelper.buildSuccessResponse({}, Messages.signUp.alreadyExists, STATUS.FAILURE));
+          let otp = await __getOtp();
+          let userId = isUnique[0].userId;
+          const otpRes=await TwoFactor.sendOTP(user.user.mobile, {otp: otp, template: 'otp'}).then((res) => {
+          
+           return STATUS.SUCCESS;
+           }, (err) => {
+             return err
+           })
+           await otpModel.updateOtp(otp, user.created_on, user.user.mobile)
+           if(otpRes==STATUS.SUCCESS){
+              let saveToken = await tokenModel.saveLoginToken(userId, user.token);
+              user.deviceInfo.device_token= user.token;
+              await userModel.insertDeviceInfo(user.deviceInfo,userId);
+              response.send(ResponseHelper.buildSuccessResponse({},'Please Verify OTP Sent to registered Mobile Number.', STATUS.SUCCESS));
+           }
+           else{
+              response.send(ResponseHelper.buildSuccessResponse(otpRes,'Error sending OTP.', STATUS.FAILURE));  
+           }
         }
     }
     catch (err) {
       conn.rollback();
       conn.release();
       console.log(err);
-        response.send(ResponseHelper.buildFailureResponse(new Error('Sign Up Error')));
+        response.send(ResponseHelper.buildFailureResponse(new Error('Internal Server Error')));
       }
 
 }

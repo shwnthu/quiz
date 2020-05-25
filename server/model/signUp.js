@@ -13,11 +13,11 @@ export class UserModel {
 
     }
 
-    checkUniqueId(email, mobile) {
+    checkUniqueId( mobile) {
         return new Promise((resolve, reject) => {
 			let sql = sqlObj.signUp.checkUniqueId;
 			
-			let sqlQuery = format(sql, email, mobile);
+			let sqlQuery = format(sql, mobile);
 			console.log(sqlQuery)
             db.doRead(sqlQuery).then(userData => {
 				console.log(userData);
@@ -29,11 +29,11 @@ export class UserModel {
         })
     }
 
-    createUser(conn,fname,lname, email, mobile, roleId, isActive, createdOn) {
+    createUser(conn, mobile, roleId, isActive, createdOn) {
 		return new Promise((resolve, reject) => {
 			let sql = sqlObj.signUp.createUser;
 			console.log(9)
-            let sqlQuery = format(sql,fname,lname,mobile, email, roleId, isActive, createdOn);
+            let sqlQuery = format(sql,mobile, roleId, isActive, createdOn);
 			conn.query(sqlQuery).then(res => {
 				resolve(res);
 			}).catch(err => {

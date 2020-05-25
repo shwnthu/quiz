@@ -10,18 +10,7 @@ isValidRegRequest(regRequest) {
         status: 1
       };
 
-      if (regRequest.user.fname == 'undefined' || regRequest.user.fname == '') {
-        result.msg = 'Key value of First Name can not be empty.';
-        resolve(result);
-      } else if (regRequest.user.lname == 'undefined' || regRequest.user.lname == '') {
-        result.msg = 'Key value of Last Name can not be empty.';
-        resolve(result);
-      } 
-      else if (regRequest.user.email == 'undefined' || regRequest.user.email == '') {
-        result.msg = 'Key value of Email can not be empty.';
-        resolve(result);
-      }
-      else if (regRequest.user.mobile == 'undefined' || regRequest.user.mobile == '') {
+      if (regRequest.user.mobile == 'undefined' || regRequest.user.mobile == '') {
         result.msg = 'Key value of Mobile Number can not be empty.';
         resolve(result);
       }
