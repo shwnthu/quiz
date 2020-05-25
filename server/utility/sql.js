@@ -17,7 +17,8 @@ export const sqlObj = {
     },
     questions :{
       createQuestion :`insert into questions(userId,question,option1,option2,option3,option4,answer) VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}')`,
-      getRole : `select userId,role_id from user where userId = '{0}'`
+      getRole : `select userId,role_id from user where userId = '{0}'`,
+      getAllQuestions :`select question,option1,option2,option3,option4 from questions where userId = '{0}'`
      
     },
     tokenManger: {

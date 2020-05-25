@@ -28,6 +28,13 @@ const STATUS = {
       })
   }
 
+  export const getAllQuestions = (request,response)=>{
+    __getAllQuestions(request, response).then(resgistrationRes => {
+        return resgistrationRes;
+      })
+  }
+
+ 
 
   const __addQuestions = async (request,response) =>{
       let userId = request.params.userId;
@@ -58,4 +65,50 @@ const STATUS = {
         response.send(ResponseHelper.buildSuccessResponse({}, 'Something went wrong', STATUS.FAILURE));
       }
       
+  }
+
+
+
+  const __getAllQuestions = async (request,response) =>{
+      let userId = request.params.userId;
+      let questionsModel = new QUESTIONSMODEL();
+      let role = await questionsModel.getRole(userId);
+      if(role) {
+        if(role[0].role_id == 1) {
+           let questions = await questionsModel.getAllQuestions(userId);
+           if(questions) {
+            let allQuestions = [];
+            for(let question = 0;question<questions.length;question++) {
+                let questionFormat = {
+                    'question' : '',
+                    'options' : []
+                }
+                questionFormat.question = questions[question].question;
+                questionFormat.options.push(questions[question].option1);
+                questionFormat.options.push(questions[question].option2);
+                questionFormat.options.push(questions[question].option3);
+                questionFormat.options.push(questions[question].option4);
+                allQuestions.push(questionFormat);
+                questionFormat = {
+                 'question' : '',
+                 'options' : []
+             }
+ 
+            }
+            response.send(ResponseHelper.buildSuccessResponse(allQuestions, 'Questions  Fetched Successfully', STATUS.SUCCESS)); 
+           }
+           else {
+            response.send(ResponseHelper.buildSuccessResponse({}, 'No Questions Found.', STATUS.FAILURE)); 
+           }
+           
+         
+
+        }
+        else {
+            response.send(ResponseHelper.buildSuccessResponse({}, 'User Doesnot have access .', STATUS.FAILURE)); 
+        }
+      }
+      else {
+        response.send(ResponseHelper.buildSuccessResponse({}, 'Something went wrong', STATUS.FAILURE));
+      }
   }

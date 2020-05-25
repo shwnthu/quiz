@@ -27,6 +27,19 @@ export class QUESTIONSMODEL {
 			});
         })
     }
+
+    getAllQuestions(userId) {
+        return new Promise((resolve, reject) => {
+            let sql = sqlObj.questions.getAllQuestions;
+			let sqlQuery = format(sql, userId);
+            db.doRead(sqlQuery).then(res => {
+				resolve(res);
+			}).catch(err => {
+				console.log(err)
+				reject(new Error(err));
+			});
+        }) 
+    }
     
     createQuestion(question,userId,answer) {
         return new Promise((resolve, reject) => {
