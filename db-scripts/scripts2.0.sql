@@ -134,6 +134,17 @@ CREATE TABLE IF NOT EXISTS `token` (
   CONSTRAINT `fk_token_table_user_id` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+CREATE TABLE IF NOT EXISTS `quiz` (
+  `quiz_id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_by` int(11) DEFAULT NULL,
+  `questions` varchar(250) DEFAULT NULL,
+  `start_time` datetime DEFAULT current_timestamp(),
+  `end_time` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`quiz_id`),
+  FOREIGN KEY (`created_by`) REFERENCES `user` (`userId`)
+);
+
 -- Dumping data for table quiz.token: ~0 rows (approximately)
 /*!40000 ALTER TABLE `token` DISABLE KEYS */;
 /*!40000 ALTER TABLE `token` ENABLE KEYS */;

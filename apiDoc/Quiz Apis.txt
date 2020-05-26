@@ -221,5 +221,56 @@ Response:
 }
 
 
+http://127.0.0.1:5000/service/user/createQuiz
 
 
+Request :
+
+
+
+
+{
+	"topic":"",
+	"questions":[1,2],
+	"start_time":"2020-05-26 12:14:54",
+	"end_time":"2020-05-26 13:14:54"
+}
+
+
+
+Response :
+
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 1,
+    "data": {
+        "status": 1,
+        "message": "Quiz Created Successfully"
+    }
+}
+
+
+http://127.0.0.1:5000/service/user/getAllQuiz
+
+x-auth-token : afc5f4c0-9f44-11ea-a90a-79866869fb961590492794
+
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": {
+        "todayQuiz": [
+            {
+                "quiz_id": 2,
+                "questions": "1,2",
+                "start_time": "2020-05-26 21:14:54",
+                "end_time": "2020-05-26 23:14:54"
+            }
+        ],
+        "status": 0,
+        "message": "Quiz List Fetched Successfully."
+    }
+}

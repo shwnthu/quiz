@@ -16,6 +16,10 @@ export const sqlObj = {
       getAllUsers :`select userId,fname,lname,profile_pic,mobile,city,state,gender,email from user where role_id=2`
      
     },
+    quiz :{
+      createQuiz :`insert into quiz (created_by,questions,start_time,end_time) values ('{0}','{1}' ,'{2}', '{3}')`,
+      getAllQuiz :`select quiz_id,questions,start_time,end_time from quiz`
+    },
     questions :{
       createQuestion :`insert into questions(userId,question,option1,option2,option3,option4,answer) VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}')`,
       getRole : `select userId,role_id from user where userId = '{0}'`,

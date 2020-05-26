@@ -23,14 +23,14 @@ const STATUS = {
 
 
   export const addQuestions = (request,response)=>{
-    __addQuestions(request, response).then(resgistrationRes => {
-        return resgistrationRes;
+    __addQuestions(request, response).then(Res => {
+        return Res;
       })
   }
 
   export const getAllQuestions = (request,response)=>{
-    __getAllQuestions(request, response).then(resgistrationRes => {
-        return resgistrationRes;
+    __getAllQuestions(request, response).then(Res => {
+        return Res;
       })
   }
 
