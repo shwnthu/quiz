@@ -1,0 +1,225 @@
+http://127.0.0.1:5000/service/user/authenticateUser
+
+
+Request:
+
+{
+
+"mobile":"8333965045",
+"device_type":"mobile",
+"device_name":"Mi Note 7",
+"device_model":"Handset",
+"os_version":"8.0",
+"ip_address":"127.0.0.1",
+"app_version":"4.0"
+
+}
+
+
+Response :
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": {
+        "status": 0,
+        "message": "SignUp Success. Please Veriy your Mobile Number or Email Id to validate your Account"
+    }
+}
+
+
+
+http://127.0.0.1:5000/service/user/resendOtp
+
+
+{
+
+"mobile":"8333965045",
+"device_type":"mobile",
+"device_name":"Mi Note 7",
+"device_model":"Handset",
+"os_version":"8.0",
+"ip_address":"127.0.0.1",
+"app_version":"4.0"
+
+}
+
+
+
+
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": {
+        "status": 0,
+        "message": "Please Verify OTP Sent to registered Mobile Number."
+    }
+}
+
+
+
+
+
+
+http://127.0.0.1:5000/service/user/verifyOtp
+
+
+
+request :
+
+{
+	"emailOrMobile":"8333965045",
+	"otp":"121225"
+}
+
+
+
+response :
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": {
+        "first_name": null,
+        "last_name": null,
+        "email": null,
+        "mobile": "8333965045",
+        "account_type": 2,
+        "device_type": "mobile",
+        "device_name": "Mi Note 7",
+        "device_model": "Handset",
+        "os_version": "8.0",
+        "x-auth-token": "17dadcc0-9e90-11ea-ad86-2f777ef013e41590415230",
+        "ip_address": "127.0.0.1",
+        "app_version": "4.0",
+        "status": 0,
+        "message": "OTP Successfully Verified"
+    }
+}
+
+
+
+http://127.0.0.1:5000/service/user/updateProfile
+
+
+In headers :
+
+x-auth-token : 8ebba560-9e61-11ea-99dd-a74c029da0f21590395243
+
+
+Request Body :
+
+{
+	"fname" :"uppu",
+	"lname" :"yash",
+	"email" :"shwnthu@gmail.com",
+	"gender" :"Male",
+	"state" :"TS",
+	"city":"HYd"
+}
+
+
+
+
+
+Response :
+
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": {
+        "status": 0,
+        "message": "Profile Updated Successfully"
+    }
+}
+
+
+
+http://127.0.0.1:5000/service/user/addQuestions
+
+In headers :
+
+x-auth-token : 8ebba560-9e61-11ea-99dd-a74c029da0f21590395243
+
+
+Request Body :
+
+
+[{	
+	"question":"What is Indian Currency",
+	"options":["Rupee","Dollar","Yen","Euro"],
+	"answer":"Rupee"
+	
+},
+{
+	"question":"What is National Animal?",
+	"options":["Elephant","Lion","Tiger","Rat"],
+	"answer":"Tiger"
+}]
+
+
+Response :
+
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": {
+        "status": 0,
+        "message": "Questions Created Successfully"
+    }
+}
+
+
+
+Get API :
+
+http://127.0.0.1:5000/service/user/getAllQuestions
+
+x-auth-token : 8ebba560-9e61-11ea-99dd-a74c029da0f21590395243
+
+
+
+
+Response:
+
+
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": [
+        {
+            "question_id": 1,
+            "question": "What is Indian Currency",
+            "options": [
+                "Rupee",
+                "Dollar",
+                "Yen",
+                "Euro"
+            ]
+        },
+        {
+            "question_id": 2,
+            "question": "What is National Animal?",
+            "options": [
+                "Elephant",
+                "Lion",
+                "Tiger",
+                "Rat"
+            ]
+        }
+    ]
+}
+
+
+
+

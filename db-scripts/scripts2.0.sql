@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `audit_log` (
   `updated_on` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `ip` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`audit_log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `created_on` datetime DEFAULT NULL,
   `updated_on` datetime DEFAULT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- Dumping data for table quiz.audit_log: ~0 rows (approximately)
 /*!40000 ALTER TABLE `audit_log` DISABLE KEYS */;
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `device_info` (
   PRIMARY KEY (`id`),
   KEY `fk_device_info_table_user_id` (`userId`),
   CONSTRAINT `fk_deviceInfo_table_user_id` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- Dumping data for table quiz.device_info: ~0 rows (approximately)
 /*!40000 ALTER TABLE `device_info` DISABLE KEYS */;
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `otpvalidator` (
   `created_on` datetime NOT NULL,
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- Dumping data for table quiz.otpvalidator: ~0 rows (approximately)
 /*!40000 ALTER TABLE `otpvalidator` DISABLE KEYS */;
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `option4` longtext NOT NULL DEFAULT '0',
   `answer` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- Dumping data for table quiz.questions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- Dumping data for table quiz.role: ~2 rows (approximately)
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `token` (
   PRIMARY KEY (`tokenId`),
   KEY `fk_token_table_user_id` (`userId`),
   CONSTRAINT `fk_token_table_user_id` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table quiz.token: ~0 rows (approximately)
 /*!40000 ALTER TABLE `token` DISABLE KEYS */;

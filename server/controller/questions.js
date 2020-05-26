@@ -80,9 +80,11 @@ const STATUS = {
             let allQuestions = [];
             for(let question = 0;question<questions.length;question++) {
                 let questionFormat = {
+                    'question_id' : '',
                     'question' : '',
                     'options' : []
                 }
+                questionFormat.question_id = questions[question].question_id;
                 questionFormat.question = questions[question].question;
                 questionFormat.options.push(questions[question].option1);
                 questionFormat.options.push(questions[question].option2);
@@ -90,6 +92,7 @@ const STATUS = {
                 questionFormat.options.push(questions[question].option4);
                 allQuestions.push(questionFormat);
                 questionFormat = {
+                 'question_id' : '',
                  'question' : '',
                  'options' : []
              }
