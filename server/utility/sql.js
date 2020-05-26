@@ -12,7 +12,8 @@ export const sqlObj = {
     login :{
       isUserExists      : `select fname,lname,city,state,gender,email, mobile,userId from user where mobile = '{0}'`,
       updateProfile  : `update user set fname = '{0}',lname = '{1}',city = '{2}',state = '{3}',gender = '{4}', email = '{5}' where userId = '{6}'`,
-      getUserFromUserId : `select userId,fname,lname,mobile,city,state,gender,email,isActive,role_id from user where userId = '{0}'`
+      getUserFromUserId : `select userId,fname,lname,mobile,city,state,gender,email,isActive,role_id from user where userId = '{0}'`,
+      getAllUsers :`select userId,fname,lname,profile_pic,mobile,city,state,gender,email from user where role_id=2`
      
     },
     questions :{

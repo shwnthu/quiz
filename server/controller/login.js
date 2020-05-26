@@ -6,12 +6,14 @@ import {Messages} from '../utility/message'
 import {UserModel} from '../model/login'
 import { OtpModel } from '../model/otp';
 import { UserModel as RegisterModel} from '../model/signUp';
+import { QUESTIONSMODEL} from '../model/questions';
 
 const tokenModel = new TokenModel();
 let db = DbConnMgr.getInstance();
 let util = new Utils();
 let loginModel = new UserModel();
 let registerModel = new RegisterModel();
+let questionsModel = new QUESTIONSMODEL();
 let authKey = 'aa1413af-9cb2-11ea-9fa5-0200cd936042'
 const TwoFactor = new (require('2factor'))(authKey);
 let otpModel = new OtpModel();
@@ -54,6 +56,36 @@ export const updateProfile = (request,response)=>{
   })
 }
 
+
+export const getAllUsers = (request,response)=>{
+  __getAllUsers(request, response).then(Res => {
+    return Res;
+  })
+}
+
+const __getAllUsers = async (request,response) =>{
+  let userId = request.params.userId;
+  const role = await questionsModel.getRole(userId)
+  if(role){
+if(role[0].role_id == 1){
+
+  let userDetails = await loginModel.getAllUsers() 
+  if(userDetails) {
+    response.send(ResponseHelper.buildSuccessResponse(userDetails, 'Users Fetched Successfully', STATUS.FAILURE)); 
+  }
+  else {
+    response.send(ResponseHelper.buildSuccessResponse({}, 'No Users Found', STATUS.FAILURE)); 
+  }
+
+}
+else {
+  response.send(ResponseHelper.buildSuccessResponse({}, 'User Doesnot have access .', STATUS.FAILURE)); 
+}
+  }
+  else {
+    response.send(ResponseHelper.buildSuccessResponse({}, 'Something went Wrong', STATUS.FAILURE));
+  }
+}
 
 const __updateProfile = async(request,response)=>{
   let userId = request.params.userId;

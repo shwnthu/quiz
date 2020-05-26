@@ -26,6 +26,20 @@ export class UserModel {
         })
 	}
 	
+
+
+	getAllUsers(){
+        return new Promise((resolve, reject) => {
+			let sql = sqlObj.login.getAllUsers;
+			
+            db.doRead(sql).then(userData => {
+				resolve(userData);
+			}).catch(err => {
+				console.log(err)
+				reject(new Error(err));
+			});
+        })
+	}
 	// updateProfilePic(){
 
 	// }
