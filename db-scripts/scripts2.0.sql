@@ -160,13 +160,16 @@ CREATE TABLE IF NOT EXISTS `balance` (
 
 CREATE TABLE `rooms` (
 	`room_id` INT(11) NOT NULL AUTO_INCREMENT,
-	`room_type` VARCHAR(225) NOT NULL DEFAULT '0' COLLATE 'latin1_swedish_ci',
+	`room_type` ENUM('SINGLE','GROUP') NOT NULL DEFAULT 'SINGLE' COLLATE 'latin1_swedish_ci',
 	`entry_token` INT(11) NOT NULL DEFAULT '0',
 	`player_limit` INT(11) NOT NULL DEFAULT '0',
 	`time_limit` INT(11) NOT NULL DEFAULT '0',
 	`prize_token` INT(11) NOT NULL DEFAULT '0',
+	`created_by` INT(11) NOT NULL DEFAULT '0',
 	`created_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`updated_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-	PRIMARY KEY (`room_id`) USING BTREE
-)
-;
+	PRIMARY KEY (`room_id`) USING BTREE,
+	INDEX `created_by` (`created_by`) USING BTREE,
+	CONSTRAINT `created_by` FOREIGN KEY (`created_by`) REFERENCES `quiz`.`user` (`userId`) ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
