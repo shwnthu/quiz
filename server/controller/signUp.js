@@ -12,7 +12,7 @@ const tokenModel = new TokenModel();
 let db = DbConnMgr.getInstance();
 let util = new Utils();
 let userModel = new UserModel();
-let authKey = 'aa1413af-9cb2-11ea-9fa5-0200cd936042'
+let authKey = process.env.SMS_API_KEY;
 const TwoFactor = new (require('2factor'))(authKey);
 let otpModel = new OtpModel();
 
@@ -81,8 +81,10 @@ export const authenticateUser = (request, response) => {
           let userRes = await userModel.createUser(conn,
                user.user.mobile, role_id,isActive, user.user.created_on);
                if (userRes) {
+                
                 conn.commit();
                 conn.release();
+                await userModel.insertBalance(userRes.insertId);
                 user.deviceInfo.device_token= user.token;
                 await userModel.insertDeviceInfo(user.deviceInfo,userRes.insertId)
                   

@@ -145,16 +145,28 @@ CREATE TABLE IF NOT EXISTS `quiz` (
   FOREIGN KEY (`created_by`) REFERENCES `user` (`userId`)
 );
 
--- Dumping data for table quiz.token: ~0 rows (approximately)
-/*!40000 ALTER TABLE `token` DISABLE KEYS */;
-/*!40000 ALTER TABLE `token` ENABLE KEYS */;
 
 
+CREATE TABLE IF NOT EXISTS `balance` (
+  `balance_id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `cash_balance` int(250) DEFAULT NULL,
+  `token_balance` int(250) DEFAULT NULL,
+  `total_balance` int(250) DEFAULT NULL,
+  PRIMARY KEY (`balance_id`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
+);
 
--- Dumping data for table quiz.user: ~0 rows (approximately)
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+CREATE TABLE `rooms` (
+	`room_id` INT(11) NOT NULL AUTO_INCREMENT,
+	`room_type` VARCHAR(225) NOT NULL DEFAULT '0' COLLATE 'latin1_swedish_ci',
+	`entry_token` INT(11) NOT NULL DEFAULT '0',
+	`player_limit` INT(11) NOT NULL DEFAULT '0',
+	`time_limit` INT(11) NOT NULL DEFAULT '0',
+	`prize_token` INT(11) NOT NULL DEFAULT '0',
+	`created_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`updated_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+	PRIMARY KEY (`room_id`) USING BTREE
+)
+;

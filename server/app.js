@@ -45,6 +45,7 @@ app.use(function (req, res, next) {
 app.use(require('./router/user'));
 app.use(require('./router/questions'));
 app.use(require('./router/quiz'));
+app.use(require('./router/rooms'));
 
 
 

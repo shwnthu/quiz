@@ -274,3 +274,63 @@ x-auth-token : afc5f4c0-9f44-11ea-a90a-79866869fb961590492794
         "message": "Quiz List Fetched Successfully."
     }
 }
+
+
+http://127.0.0.1:5000/service/user/createRoom
+
+x-auth-token : afc5f4c0-9f44-11ea-a90a-79866869fb961590492794
+
+{
+	"room_type" :"SINGLE",
+	"entry_token":10,
+	"player_limit":50,
+	"time_limit":0,
+	"prize_token":10
+}
+
+
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": {
+        "status": 0,
+        "message": "Room Created Successfully"
+    }
+}
+
+
+
+http://127.0.0.1:5000/service/user/getRooms
+
+x-auth-token : afc5f4c0-9f44-11ea-a90a-79866869fb961590492794
+
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": [
+        {
+            "room_id": 1,
+            "room_type": "SINGLE",
+            "entry_token": 10,
+            "player_limit": 50,
+            "time_limit": 30,
+            "prize_token": 10,
+            "created_by": 5,
+            "created_on": "2020-06-01 12:41:07"
+        },
+        {
+            "room_id": 2,
+            "room_type": "SINGLE",
+            "entry_token": 10,
+            "player_limit": 50,
+            "time_limit": 0,
+            "prize_token": 10,
+            "created_by": 5,
+            "created_on": "2020-06-01 12:44:15"
+        }
+    ]
+}

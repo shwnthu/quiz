@@ -6,6 +6,7 @@ export const sqlObj = {
         getUserDetails      : `select userId,fname,lname,mobile,city,state,gender,email,isActive,role_id from user where mobile = '{0}'`,
         getDeviceDetails      : `select device_type,device_name,model,os_version,device_token,ip,app_version from device_info where userId = '{0}' ORDER BY id DESC;`,
         activeAccount: `update user set isActive = '{0}' where mobile = '{1}'`,
+        insertBalance : `insert into balance (userId,token_balance,cash_balance,total_balance) values('{0}','{1}','{2}','{3}')`
 
 
     },
@@ -25,6 +26,10 @@ export const sqlObj = {
       getRole : `select userId,role_id from user where userId = '{0}'`,
       getAllQuestions :`select question_id,question,option1,option2,option3,option4 from questions where userId = '{0}'`
      
+    },
+    rooms:{
+      createRoom : `insert into rooms(room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on) values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')`,
+      getRooms : `select room_id,room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on from rooms`
     },
     tokenManger: {
         saveLoginToken: `insert into token(userId, token, created_on) VALUES('{0}','{1}','{2}')`,

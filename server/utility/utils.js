@@ -24,6 +24,43 @@ isValidRegRequest(regRequest) {
 }
 
 
+isValidRoomRequest(roomRequest) {
+  return new Promise((resolve, reject) => {
+    let result = {
+      msg: '',
+      status: 1
+    };
+
+    if (roomRequest.rooms.room_type == 'undefined' || roomRequest.rooms.room_type == '') {
+      result.msg = 'Key value of Room Type can not be empty.';
+      reject(result);
+    }
+    else if (roomRequest.rooms.entry_token == 'undefined' || roomRequest.rooms.entry_token == '') {
+      result.msg = 'Key value of Entry Token can not be empty.';
+      reject(result);
+    }
+    else if (roomRequest.rooms.player_limit == 'undefined' || roomRequest.rooms.player_limit == '') {
+      result.msg = 'Key value of Player Limit can not be empty.';
+      reject(result);
+    }
+    else if (roomRequest.rooms.time_limit == 'undefined') {
+      result.msg = 'Key value of Time Limit can not be empty.';
+      reject(result);
+    }
+    else if (roomRequest.rooms.prize_token == 'undefined' || roomRequest.rooms.prize_token == '') {
+      result.msg = 'Key value of Prize Token can not be empty.';
+      reject(result);
+    }
+    else {
+      result.msg = 'Valid request object',
+      result.status = 0
+      resolve(result);
+    }
+
+})
+}
+
+
 
 
 
