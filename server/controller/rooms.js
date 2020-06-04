@@ -6,6 +6,7 @@ import { ROOMSMODEL} from '../model/rooms'
 import { QUESTIONSMODEL} from '../model/questions'
 
 let db = DbConnMgr.getInstance();
+let moment = require('moment')
 let util = new Utils();
 let roomsModel = new ROOMSMODEL();
 let questionsModel = new QUESTIONSMODEL();
@@ -89,12 +90,37 @@ const STATUS = {
  const  __getRooms = async (request,response) => {
    let userId = request.params.userId;
    let rooms = await roomsModel.getRooms();
+   let roomsList = [];
    if( rooms) {
-    response.send(ResponseHelper.buildSuccessResponse(rooms,'Rooms Fetched Successfully', STATUS.SUCCESS));
+     for(let room = 0 ; room < rooms.length; room++) {
+       if(rooms[room].time_limit == 0 ) {
+        roomsList.push(rooms[room]);
+       }
+       else {
+        let minDiff = calculateMin(rooms[room].created_on,util.getCurrentTimeStamp())
+        if(minDiff<=rooms[room].time_limit) {
+          roomsList.push(rooms[room]);
+        }
+       }
+       
+
+     }
+    response.send(ResponseHelper.buildSuccessResponse(roomsList,'Rooms Fetched Successfully', STATUS.SUCCESS));
    } 
    else {
     response.send(ResponseHelper.buildSuccessResponse(err,'No Rooms Found', STATUS.FAILURE));
    }
+ }
+
+
+
+ const  calculateMin = (startDate,endDate)=>
+ {
+    var start_date = moment(startDate, 'YYYY-MM-DD HH:mm:ss');
+    var end_date = moment(endDate, 'YYYY-MM-DD HH:mm:ss');
+    var duration = moment.duration(end_date.diff(start_date));
+    var mins = duration.asMinutes()       
+    return mins;
  }
 
   
