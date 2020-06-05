@@ -111,7 +111,7 @@ export class UserModel {
 	insertBalance(userId) {
 		return new Promise((resolve, reject) => {
 			let sql = sqlObj.signUp.insertBalance;
-			let sqlQuery = format(sql,userId,10,0,10);
+			let sqlQuery = format(sql,userId,10,0);
 			console.log(sqlQuery)
             db.doUpdate(sqlQuery).then(userData => {
 				resolve(userData);

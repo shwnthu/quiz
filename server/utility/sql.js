@@ -6,7 +6,7 @@ export const sqlObj = {
         getUserDetails      : `select userId,fname,lname,mobile,city,state,gender,email,isActive,role_id from user where mobile = '{0}'`,
         getDeviceDetails      : `select device_type,device_name,model,os_version,device_token,ip,app_version from device_info where userId = '{0}' ORDER BY id DESC;`,
         activeAccount: `update user set isActive = '{0}' where mobile = '{1}'`,
-        insertBalance : `insert into balance (userId,token_balance,cash_balance,total_balance) values('{0}','{1}','{2}','{3}')`
+        insertBalance : `insert into balance (userId,token_balance,cash_balance) values('{0}','{1}','{2}')`
 
 
     },
@@ -29,7 +29,14 @@ export const sqlObj = {
     },
     rooms:{
       createRoom : `insert into rooms(room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on) values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')`,
-      getRooms : `select room_id,room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on from rooms`
+      getRooms : `select room_id,room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on from rooms`,
+      getUserTokenBal : `select cash_balance,token_balance,total_balance from balance where userId = '{0}'`,
+      cuttokenBal : ` update balance set token_balance = '{0}' where userId = '{1}' `,
+      existingRoomDetails :`select userId,room_id from joined_rooms where userId = '{0}' and room_id = '{1}'`,
+      joinRoom : `insert into joined_rooms (userId,room_id,created_on) values ('{0}','{1}','{2}')`,
+      cutcashBal : ` update balance set cash_balance = '{0}' where userId = '{1}' `,
+      cutBal : `  update balance set token_balance = '{0}',cash_balance = '{1}'  where userId = '{2}'`,
+      getRoomDetails : `select userId,room_id from joined_rooms where  room_id = '{0}'`
     },
     tokenManger: {
         saveLoginToken: `insert into token(userId, token, created_on) VALUES('{0}','{1}','{2}')`,

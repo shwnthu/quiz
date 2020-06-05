@@ -147,15 +147,20 @@ CREATE TABLE IF NOT EXISTS `quiz` (
 
 
 
-CREATE TABLE IF NOT EXISTS `balance` (
-  `balance_id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
-  `cash_balance` int(250) DEFAULT NULL,
-  `token_balance` int(250) DEFAULT NULL,
-  `total_balance` int(250) DEFAULT NULL,
-  PRIMARY KEY (`balance_id`),
-  FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
-);
+CREATE TABLE `balance` (
+	`balance_id` INT(11) NOT NULL AUTO_INCREMENT,
+	`userId` INT(11) NOT NULL,
+	`cash_balance` INT(250) NULL DEFAULT NULL,
+	`token_balance` INT(250) NULL DEFAULT NULL,
+	`total_balance` INT(250) DEFAULT NULL AS (`cash_balance` + `token_balance`) virtual,
+	PRIMARY KEY (`balance_id`) USING BTREE,
+	INDEX `userId` (`userId`) USING BTREE,
+	CONSTRAINT `balance_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `quiz`.`user` (`userId`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+;
+
 
 
 CREATE TABLE `rooms` (
@@ -172,4 +177,21 @@ CREATE TABLE `rooms` (
 	INDEX `created_by` (`created_by`) USING BTREE,
 	CONSTRAINT `created_by` FOREIGN KEY (`created_by`) REFERENCES `quiz`.`user` (`userId`) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+
+CREATE TABLE `joined_rooms` (
+	`joined_room_id` INT(11) NOT NULL AUTO_INCREMENT,
+	`userId` INT(11) NOT NULL,
+	`room_id` INT(11) NOT NULL,
+	`created_on` DATETIME NULL DEFAULT current_timestamp(),
+	`updated_on` DATETIME NULL DEFAULT NULL ON UPDATE current_timestamp(),
+	PRIMARY KEY (`joined_room_id`) USING BTREE,
+	INDEX `userId` (`userId`) USING BTREE,
+	CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `quiz`.`user` (`userId`) ON UPDATE RESTRICT ON DELETE RESTRICT,
+	INDEX `room_id` (`room_id`) USING BTREE,
+	CONSTRAINT `room_id` FOREIGN KEY (`room_id`) REFERENCES `quiz`.`rooms` (`room_id`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+;
+
 

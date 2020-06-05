@@ -28,6 +28,7 @@ const STATUS = {
         'created_on' :  util.getCurrentTimeStamp()
       }
       this.created_on = util.getCurrentTimeStamp();
+      this.selectedRoom = {};
     }
   }
 
@@ -45,7 +46,135 @@ const STATUS = {
       return roomRes;
     })
   };
+
+
+  export const joinRoom = (request, response) => {
+    __joinRoom(request, response).then(roomRes => {
+      return roomRes;
+    })
+  };
   
+  
+  const __joinRoom = async (request,response) =>{
+    try {
+    let roomData = new ROOMS(request.body);
+    let userId = request.params.userId;
+    let roomId = request.params.room_id;
+    let roomsList = await __getRoomsData(request,response);
+ if(roomsList == []) {
+  response.send(ResponseHelper.buildSuccessResponse({}, 'Something went Wrong,Please try again later.', STATUS.FAILURE)); 
+ }
+ else {
+  for(let room = 0 ; room <roomsList.length;room++) {
+    if(roomsList[room].room_id == roomId) {
+      roomData.selectedRoom = roomsList[room]; 
+    }
+  }
+  let userTokenBalance = await roomsModel.getUserTokenBalance(userId);
+  if(userTokenBalance[0].total_balance>= roomData.selectedRoom.entry_token) {
+    if(userTokenBalance[0].token_balance >= roomData.selectedRoom.entry_token) {
+        let getRoomDetails = await roomsModel.getRoomDetails(roomData.selectedRoom.room_id);
+        if(getRoomDetails.length< roomData.selectedRoom.player_limit) {
+          let existingRoomDetails = await roomsModel.existingRoom(userId,roomData.selectedRoom.room_id)
+          if(existingRoomDetails.length<1) {
+            let tokenBal = userTokenBalance[0].token_balance - roomData.selectedRoom.entry_token;
+            let cutBal = await roomsModel.cutTokenBal(userId,tokenBal);
+            if(cutBal) {            
+            let joinRoom = await roomsModel.joinRoom(userId,roomData.selectedRoom.room_id,util.getCurrentTimeStamp());
+            if(joinRoom) {
+              response.send(ResponseHelper.buildSuccessResponse({}, 'Joined Room Successfully', STATUS.SUCCESS))
+            }
+            else {
+              response.send(ResponseHelper.buildSuccessResponse({}, 'Something went wrong', STATUS.FAILURE))
+            }
+
+          }
+          else {
+            response.send(ResponseHelper.buildSuccessResponse({}, 'Something went Wrong,Please try again later.', STATUS.FAILURE)); 
+          }
+          }
+          else {
+             response.send(ResponseHelper.buildSuccessResponse({}, 'Player already joined in the room', STATUS.FAILURE));
+          }
+        }
+        else {
+          response.send(ResponseHelper.buildSuccessResponse({}, 'Player Limit exceeded in this Room,Try joining another room', STATUS.FAILURE)); 
+        }
+
+      
+    }
+    else if(userTokenBalance[0].cash_balance >= roomData.selectedRoom.entry_token) {
+      
+        let getRoomDetails = await roomsModel.getRoomDetails(roomData.selectedRoom.room_id);
+        if(getRoomDetails.length< roomData.selectedRoom.player_limit) {
+          let existingRoomDetails = await roomsModel.existingRoom(userId,roomData.selectedRoom.room_id)
+          if(existingRoomDetails.length<1) {
+            let cashBal = userTokenBalance[0].cash_balance - roomData.selectedRoom.entry_token;
+      let cutBal = await roomsModel.cutCashBal(userId,cashBal);
+      if(cutBal) {
+            let joinRoom = await roomsModel.joinRoom(userId,roomData.selectedRoom.room_id,util.getCurrentTimeStamp());
+            if(joinRoom) {
+              response.send(ResponseHelper.buildSuccessResponse({}, 'Joined Room Successfully', STATUS.SUCCESS))
+            }
+            else {
+              response.send(ResponseHelper.buildSuccessResponse({}, 'Something went wrong', STATUS.FAILURE))
+            }
+          }
+          else {
+            response.send(ResponseHelper.buildSuccessResponse({}, 'Something went Wrong,Please try again later.', STATUS.FAILURE)); 
+          }
+          }
+          else {
+             response.send(ResponseHelper.buildSuccessResponse({}, 'Player already joined in the room', STATUS.FAILURE));
+          }
+        }
+        else {
+          response.send(ResponseHelper.buildSuccessResponse({}, 'Player Limit exceeded in this Room,Try joining another room', STATUS.FAILURE)); 
+        }
+
+     
+    }
+    else {
+      
+        let getRoomDetails = await roomsModel.getRoomDetails(roomData.selectedRoom.room_id);
+        if(getRoomDetails.length< roomData.selectedRoom.player_limit) {
+          let existingRoomDetails = await roomsModel.existingRoom(userId,roomData.selectedRoom.room_id)
+          if(existingRoomDetails.length<1) {
+            let cutBal = await roomsModel.cutBal(userId,0,0);
+      if(cutBal) {
+            let joinRoom = await roomsModel.joinRoom(userId,roomData.selectedRoom.room_id,util.getCurrentTimeStamp());
+            if(joinRoom) {
+              response.send(ResponseHelper.buildSuccessResponse({}, 'Joined Room Successfully', STATUS.SUCCESS))
+            }
+            else {
+              response.send(ResponseHelper.buildSuccessResponse({}, 'Something went wrong', STATUS.FAILURE))
+            }
+          }
+          else {
+            response.send(ResponseHelper.buildSuccessResponse({}, 'Something went Wrong,Please try again later.', STATUS.FAILURE)); 
+          }
+          }
+          else {
+             response.send(ResponseHelper.buildSuccessResponse({}, 'Player already joined in the room', STATUS.FAILURE));
+          }
+        }
+        else {
+          response.send(ResponseHelper.buildSuccessResponse({}, 'Player Limit exceeded in this Room,Try joining another room', STATUS.FAILURE)); 
+        }
+
+      
+    }
+
+  }
+  else {
+    response.send(ResponseHelper.buildSuccessResponse({}, 'User Doesnot have enough balance to join the room', STATUS.FAILURE));
+  }
+ }
+}
+catch(err) {
+  response.send(ResponseHelper.buildFailureResponse(err, '', STATUS.FAILURE));
+}
+  }
 
 
   const __createRoom = async (request,response) =>{
@@ -67,7 +196,7 @@ const STATUS = {
             }
           }
           else {
-            response.send(ResponseHelper.buildSuccessResponse({}, 'User Doesnot have access to add Questions.', STATUS.FAILURE)); 
+            response.send(ResponseHelper.buildSuccessResponse({}, 'User Doesnot have access to create Rooms.', STATUS.FAILURE)); 
           }
         }
         else {
@@ -112,6 +241,32 @@ const STATUS = {
    }
  }
 
+
+
+ const  __getRoomsData = async (request,response) => {
+  let userId = request.params.userId;
+  let rooms = await roomsModel.getRooms();
+  let roomsList = [];
+  if( rooms) {
+    for(let room = 0 ; room < rooms.length; room++) {
+      if(rooms[room].time_limit == 0 ) {
+       roomsList.push(rooms[room]);
+      }
+      else {
+       let minDiff = calculateMin(rooms[room].created_on,util.getCurrentTimeStamp())
+       if(minDiff<=rooms[room].time_limit) {
+         roomsList.push(rooms[room]);
+       }
+      }
+      
+
+    }
+  return roomsList
+  } 
+  else {
+   return [];
+  }
+}
 
 
  const  calculateMin = (startDate,endDate)=>

@@ -334,3 +334,19 @@ x-auth-token : afc5f4c0-9f44-11ea-a90a-79866869fb961590492794
         }
     ]
 }
+
+
+
+http://127.0.0.1:5000/service/user/joinRoom/13
+
+x-auth-token : afc5f4c0-9f44-11ea-a90a-79866869fb961590492794
+
+{
+    "status": 0,
+    "message": "Success",
+    "code": 0,
+    "data": {
+        "status": 0,
+        "message": "Joined Room Successfully"
+    }
+}
