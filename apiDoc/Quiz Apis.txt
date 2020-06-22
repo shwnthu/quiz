@@ -282,6 +282,7 @@ x-auth-token : afc5f4c0-9f44-11ea-a90a-79866869fb961590492794
 
 {
 	"room_type" :"SINGLE",
+	"room_name" : "MYROOM",
 	"entry_token":10,
 	"player_limit":50,
 	"time_limit":0,
@@ -314,26 +315,28 @@ x-auth-token : afc5f4c0-9f44-11ea-a90a-79866869fb961590492794
     "data": [
         {
             "room_id": 1,
-            "room_type": "SINGLE",
-            "entry_token": 10,
-            "player_limit": 50,
-            "time_limit": 30,
-            "prize_token": 10,
-            "created_by": 5,
-            "created_on": "2020-06-01 12:41:07"
-        },
-        {
-            "room_id": 2,
+            "room_name": "SINGLE",
             "room_type": "SINGLE",
             "entry_token": 10,
             "player_limit": 50,
             "time_limit": 0,
             "prize_token": 10,
-            "created_by": 5,
-            "created_on": "2020-06-01 12:44:15"
+            "created_by": 1,
+            "created_on": "2020-06-07 13:58:00"
+        },
+        {
+            "room_id": 2,
+            "room_name": "MYROOM",
+            "room_type": "SINGLE",
+            "entry_token": 10,
+            "player_limit": 50,
+            "time_limit": 0,
+            "prize_token": 10,
+            "created_by": 1,
+            "created_on": "2020-06-07 14:05:14"
         }
     ]
-}
+
 
 
 

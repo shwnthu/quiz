@@ -21,6 +21,7 @@ const STATUS = {
 
       this.rooms = {
         'room_type' : roomdata.room_type,
+        'room_name' : roomdata.room_name,
         'entry_token' : roomdata.entry_token,
         'player_limit' : roomdata.player_limit,
         'time_limit' : roomdata.time_limit,

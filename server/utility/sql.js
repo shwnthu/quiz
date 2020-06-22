@@ -28,8 +28,8 @@ export const sqlObj = {
      
     },
     rooms:{
-      createRoom : `insert into rooms(room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on) values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')`,
-      getRooms : `select room_id,room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on from rooms`,
+      createRoom : `insert into rooms(room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on,room_name) values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')`,
+      getRooms : `select room_id,room_name,room_type,entry_token,player_limit,time_limit,prize_token,created_by,created_on from rooms`,
       getUserTokenBal : `select cash_balance,token_balance,total_balance from balance where userId = '{0}'`,
       cuttokenBal : ` update balance set token_balance = '{0}' where userId = '{1}' `,
       existingRoomDetails :`select userId,room_id from joined_rooms where userId = '{0}' and room_id = '{1}'`,

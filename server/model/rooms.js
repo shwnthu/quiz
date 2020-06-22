@@ -19,7 +19,7 @@ export class ROOMSMODEL {
     createRoom(reqData,userId) {
       return new Promise((resolve, reject) => {
         let sql = sqlObj.rooms.createRoom;
-        let sqlQuery = format(sql,reqData.room_type,reqData.entry_token,reqData.player_limit,reqData.time_limit,reqData.prize_token,userId,reqData.created_on);
+        let sqlQuery = format(sql,reqData.room_type,reqData.entry_token,reqData.player_limit,reqData.time_limit,reqData.prize_token,userId,reqData.created_on,reqData.room_name);
               db.doRead(sqlQuery).then(room => {
           resolve(room);
         }).catch(err => {
